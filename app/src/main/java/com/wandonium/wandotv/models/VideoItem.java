@@ -52,7 +52,7 @@ public class VideoItem {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonString = "VideoItem{" +
                 "video=" + video +
-                ", playlist=" + playlist +
+//                ", playlist=" + playlist +
                 '}';
         try {
             jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(this);

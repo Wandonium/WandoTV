@@ -99,7 +99,6 @@ public class MainFragment extends BrowseSupportFragment {
 
             ArrayObjectAdapter rowsAdapter = new ArrayObjectAdapter(new ListRowPresenter());
             CardPresenter cardPresenter = new CardPresenter();
-            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
 
             @Override
             protected void onPreExecute() {
@@ -136,12 +135,16 @@ public class MainFragment extends BrowseSupportFragment {
                             ObjectMapper objectMapper = new ObjectMapper();
                             jsonString = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(p);
                             Log.i(TAG, "Current playlist from youtube: " + jsonString);
+                            ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(cardPresenter);
                             List<Video> playlistVideos = repository.getVideos(p.getId());
                             for(Video v: playlistVideos) {
-                                listRowAdapter.add(new VideoItem(v,
-                                        (ArrayList<Video>) playlistVideos));
+                                VideoItem videoItem = new VideoItem(v,
+                                        (ArrayList<Video>) playlistVideos);
+                                Log.i(TAG, "Adding video to listRowAdapter: "
+                                        + videoItem.getVideo().getSnippet().getTitle());
+                                listRowAdapter.add(videoItem);
                             }
-                            Log.i(TAG, "Playlist's Videos: " + playlistVideos);
+//                            Log.i(TAG, "Playlist's Videos: " + playlistVideos);
                             HeaderItem headerItem = new HeaderItem(rowsAdapter.size(),
                                     p.getSnippet().getTitle());
                             rowsAdapter.add(new ListRow(headerItem, listRowAdapter));
